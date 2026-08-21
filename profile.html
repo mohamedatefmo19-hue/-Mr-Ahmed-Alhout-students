@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الملف الشخصي | Mr. Ahmed Alhout</title>
+    <title>الملف الشخصي | مستر أحمد الحوت</title>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
@@ -79,7 +79,7 @@
 <body>
 <div class="overlay" id="overlay"></div>
 <aside class="sidebar" id="sidebar">
-    <div class="logo-icon" id="sidebarLogo">M</div>
+    <div class="logo-icon" id="sidebarLogo">م</div>
     <nav>
         <a href="dashboard.html">🏠 الرئيسية</a>
         <a href="assignments.html">📄 الواجبات</a>
@@ -103,9 +103,9 @@
 </div>
 
 <script>
-    // ========================================================
-    // 🔥 إعدادات Firebase الجديدة - Mr. Ahmed Alhout
-    // ========================================================
+    // ============================================================
+    // 🔥 إعدادات Firebase - مشروع مستر أحمد الحوت
+    // ============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyCHhPfGDYpbGv0j0_Ql4v_BVaBREVe3GXM",
         authDomain: "mr-ahmed-alhout.firebaseapp.com",
@@ -115,7 +115,7 @@
         appId: "1:203891766750:web:a0d1b160fbabd99802994f",
         measurementId: "G-XKWXTMN4C3"
     };
-    // ========================================================
+    // ============================================================
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
@@ -123,7 +123,18 @@
     const studentId = localStorage.getItem('studentId');
     if (!studentId) window.location.href = 'login.html';
 
-    const SUBJECTS = { 'الأول الإعدادي':'دراسات','الثاني الإعدادي':'دراسات','الثالث الإعدادي':'تاريخ','الأول الثانوي':' تاريخ ','الثاني الثانوي':'تاريخ','الثالث الثانوي':'تاريخ و جغرافيا':'Science','الثاني الإعدادي':'Science','الثالث الإعدادي':'Science','الأول الثانوي':'Integrated Science','الثاني الثانوي':'Physics','الثالث الثانوي':'Physics' };
+    // ============================================================
+    // 🏷️ المواد حسب الصف الدراسي (مستر أحمد الحوت - تاريخ / دراسات)
+    // ============================================================
+    const SUBJECTS = {
+        'الأول الإعدادي': 'الدراسات الاجتماعية',
+        'الثاني الإعدادي': 'الدراسات الاجتماعية',
+        'الثالث الإعدادي': 'الدراسات الاجتماعية',
+        'الأول الثانوي': 'التاريخ',
+        'الثاني الثانوي': 'التاريخ',
+        'الثالث الثانوي': 'التاريخ والجغرافيا'
+    };
+    // ============================================================
 
     // Theme
     const themeToggle = document.getElementById('themeToggle');
@@ -154,13 +165,23 @@
             } catch(e){}
             const avgScore = examResults.length ? Math.round(examResults.reduce((a,b)=>a+(b.percentage||0),0)/examResults.length) : 0;
 
+            // اسم المادة حسب الصف
+            const subjectName = SUBJECTS[grade] || '';
+
             container.innerHTML = `
             <div class="card profile-header">
                 <div class="avatar-wrapper">
                     <div class="avatar-ring">${avatarUrl ? `<img src="${avatarUrl}" alt="صورة">` : '👤'}</div>
                     <button class="avatar-upload" onclick="uploadAvatar()">📷</button>
                 </div>
-                <div><h2>${user.name||'طالب'}</h2><p style="color:var(--text-muted);">الصف: ${grade} | المادة: ${SUBJECTS[grade]||''} | <span class="badge badge-success">مفعل</span></p><div id="uploadMsg" class="message"></div></div>
+                <div>
+                    <h2>${user.name||'طالب'}</h2>
+                    <p style="color:var(--text-muted);">
+                        الصف: ${grade} | المادة: ${subjectName} | 
+                        <span class="badge badge-success">مفعل</span>
+                    </p>
+                    <div id="uploadMsg" class="message"></div>
+                </div>
             </div>
             <div class="card info-grid">
                 <div class="info-row"><span>البريد</span><span>${user.email||'—'}</span></div>
@@ -173,52 +194,95 @@
                 <h3 style="margin-bottom:16px;">📊 ملخص التقدم</h3>
                 <div class="stats-inline">
                     <div class="stat-circle">
-                        <svg width="100" height="100" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/><circle cx="18" cy="18" r="15.5" fill="none" stroke="url(#grad1)" stroke-width="2.5" stroke-dasharray="${avgScore},100" stroke-linecap="round"/><defs><linearGradient id="grad1"><stop offset="0%" stop-color="#3182ce"/><stop offset="100%" stop-color="#2c7a7b"/></linearGradient></defs></svg>
-                        <div class="value">${avgScore}%</div><div style="color:var(--text-muted); font-size:0.8rem;">متوسط الدرجات</div>
+                        <svg width="100" height="100" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/>
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="url(#grad1)" stroke-width="2.5" stroke-dasharray="${avgScore},100" stroke-linecap="round"/>
+                            <defs><linearGradient id="grad1"><stop offset="0%" stop-color="#3182ce"/><stop offset="100%" stop-color="#2c7a7b"/></linearGradient></defs>
+                        </svg>
+                        <div class="value">${avgScore}%</div>
+                        <div style="color:var(--text-muted); font-size:0.8rem;">متوسط الدرجات</div>
                     </div>
                     <div class="stat-circle">
-                        <svg width="100" height="100" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/><circle cx="18" cy="18" r="15.5" fill="none" stroke="#2b6cb0" stroke-width="2.5" stroke-dasharray="${Math.min((assignCount/15)*100,100)},100" stroke-linecap="round"/></svg>
-                        <div class="value">${assignCount}</div><div style="color:var(--text-muted); font-size:0.8rem;">الواجبات المسلّمة</div>
+                        <svg width="100" height="100" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/>
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="#2b6cb0" stroke-width="2.5" stroke-dasharray="${Math.min((assignCount/15)*100,100)},100" stroke-linecap="round"/>
+                        </svg>
+                        <div class="value">${assignCount}</div>
+                        <div style="color:var(--text-muted); font-size:0.8rem;">الواجبات المسلّمة</div>
                     </div>
                     <div class="stat-circle">
-                        <svg width="100" height="100" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/><circle cx="18" cy="18" r="15.5" fill="none" stroke="#c53030" stroke-width="2.5" stroke-dasharray="${Math.min((examResults.length/10)*100,100)},100" stroke-linecap="round"/></svg>
-                        <div class="value">${examResults.length}</div><div style="color:var(--text-muted); font-size:0.8rem;">الامتحانات المحلولة</div>
+                        <svg width="100" height="100" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border-color)" stroke-width="2.5"/>
+                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="#c53030" stroke-width="2.5" stroke-dasharray="${Math.min((examResults.length/10)*100,100)},100" stroke-linecap="round"/>
+                        </svg>
+                        <div class="value">${examResults.length}</div>
+                        <div style="color:var(--text-muted); font-size:0.8rem;">الامتحانات المحلولة</div>
                     </div>
                 </div>
             </div>
 
             <h3>📝 نتائج الامتحانات الأخيرة</h3>
             <div class="card table-wrapper">
-                <table><thead><tr><th>الامتحان</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr></thead>
-                <tbody>${examResults.length ? examResults.map(r => `<tr><td>${r.examName||''}</td><td>${r.score||0}/${r.total||0}</td><td>${r.percentage||0}%</td><td>${r.createdAt?.toDate?.().toLocaleDateString('ar-EG')||''}</td></tr>`).join('') : '<tr><td colspan="4" class="empty-state">لا توجد نتائج بعد</td></tr>'}</tbody></table>
+                <table>
+                    <thead>
+                        <tr><th>الامتحان</th><th>الدرجة</th><th>النسبة</th><th>التاريخ</th></tr>
+                    </thead>
+                    <tbody>
+                        ${examResults.length ? examResults.map(r => `
+                            <tr>
+                                <td>${r.examName||''}</td>
+                                <td>${r.score||0}/${r.total||0}</td>
+                                <td>${r.percentage||0}%</td>
+                                <td>${r.createdAt?.toDate?.().toLocaleDateString('ar-EG')||''}</td>
+                            </tr>
+                        `).join('') : '<tr><td colspan="4" class="empty-state">لا توجد نتائج بعد</td></tr>'}
+                    </tbody>
+                </table>
             </div>
             `;
-        } catch(e) { container.innerHTML = '<div class="card empty-state">❌ خطأ في تحميل البيانات</div>'; }
+        } catch(e) {
+            container.innerHTML = '<div class="card empty-state">❌ خطأ في تحميل البيانات</div>';
+        }
     }
     loadProfile();
 
     window.uploadAvatar = function() {
         const msgEl = document.getElementById('uploadMsg');
         window.cloudinary.openUploadWidget({
-            cloudName: CLOUDINARY_CLOUD, uploadPreset: CLOUDINARY_PRESET, apiKey: CLOUDINARY_KEY,
-            sources: ['local','camera'], multiple: false, resourceType: 'image',
-            clientAllowedFormats: ['png','jpg','jpeg'], maxFileSize: 5000000, language: 'ar'
+            cloudName: CLOUDINARY_CLOUD,
+            uploadPreset: CLOUDINARY_PRESET,
+            apiKey: CLOUDINARY_KEY,
+            sources: ['local','camera'],
+            multiple: false,
+            resourceType: 'image',
+            clientAllowedFormats: ['png','jpg','jpeg'],
+            maxFileSize: 5000000,
+            language: 'ar'
         }, async (error, result) => {
             if (!error && result?.event === 'success') {
                 const url = result.info.secure_url;
                 await db.collection('students').doc(studentId).update({ avatar: url });
                 localStorage.setItem('studentAvatar', url);
-                msgEl.className = 'message success'; msgEl.style.display = 'block'; msgEl.textContent = '✅ تم تحديث الصورة';
+                msgEl.className = 'message success';
+                msgEl.style.display = 'block';
+                msgEl.textContent = '✅ تم تحديث الصورة';
                 loadProfile();
             }
         });
     };
 
     // Mobile menu
-    document.getElementById('menuToggle').addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); });
-    document.getElementById('overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); });
+    document.getElementById('menuToggle').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+    });
+    document.getElementById('overlay').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    });
     window.logout = () => { localStorage.clear(); window.location.href = 'login.html'; };
 </script>
+
     <script>
     // حماية المنصة من أدوات المطور والسرقة
     (function() {
